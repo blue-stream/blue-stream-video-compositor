@@ -5,6 +5,7 @@ import { config } from './config';
 const AppProxyRouter: Router = Router();
 
 AppProxyRouter.use(config.endpoints.videos.api, VideosProxy);
+AppProxyRouter.use(config.endpoints.views.api, VideosProxy);
 AppProxyRouter.use(config.endpoints.channels.api, ChannelsProxy);
 
 export { AppProxyRouter };

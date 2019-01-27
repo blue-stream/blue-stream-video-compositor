@@ -8,7 +8,7 @@ export const config = {
                 },
             },
             port: +(process.env.USERS_PORT || 5007),
-            hostname: process.env.USERS_HOST || 'http://localhost',
+            hostname: process.env.USERS_HOST || 'http://51.136.28.220',
             api: process.env.USERS_API || '/api/user',
         },
         videos: {
@@ -19,8 +19,13 @@ export const config = {
                 },
             },
             port: +(process.env.VIDEOS_PORT || 5001),
-            hostname: process.env.VIDEOS_HOST || 'http://localhost',
+            hostname: process.env.VIDEOS_HOST || 'http://51.136.28.220',
             api: process.env.USERS_API || '/api/video',
+        },
+        views: {
+            port: +(process.env.VIDEOS_PORT || 5001),
+            hostname: process.env.VIDEOS_HOST || 'http://51.136.28.220',
+            api: process.env.USERS_API || '/api/view',
         },
         channels: {
             rpc: {
@@ -30,12 +35,12 @@ export const config = {
                 },
             },
             port: +(process.env.CHANNELS_PORT || 5006),
-            hostname: process.env.CHANNELS_HOST || 'http://localhost',
+            hostname: process.env.CHANNELS_HOST || 'http://51.136.28.220',
             api: process.env.USERS_API || '/api/channel',
         },
     },
     server: {
-        port: +(process.env.SERVER_PORT || 3000),
+        port: +(process.env.SERVER_PORT || 7001),
         hostname: process.env.SERVER_HOST || 'http://localhost',
         name: process.env.SERVER_NAME || 'Video Compositor',
     },
@@ -48,6 +53,9 @@ export const config = {
         password: process.env.RMQ_LOGGER_PASS || 'guest',
         username: process.env.RMQ_LOGGER_USER || 'guest',
         persistent: false,
+    },
+    cors: {
+        allowedOrigins: process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : ['http://localhost'],
     },
     authentication: {
         required: process.env.AUTHENTICATION_REQUIRED || true,

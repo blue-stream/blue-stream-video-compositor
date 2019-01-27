@@ -8,7 +8,7 @@ export const config = {
                 },
             },
             port: +(process.env.USERS_PORT || 5007),
-            hostname: process.env.USERS_HOST || 'http://51.136.28.220',
+            hostname: process.env.USERS_HOST || 'http://localhost',
             api: process.env.USERS_API || '/api/user',
         },
         videos: {
@@ -19,12 +19,12 @@ export const config = {
                 },
             },
             port: +(process.env.VIDEOS_PORT || 5001),
-            hostname: process.env.VIDEOS_HOST || 'http://51.136.28.220',
+            hostname: process.env.VIDEOS_HOST || 'http://localhost',
             api: process.env.USERS_API || '/api/video',
         },
         views: {
             port: +(process.env.VIDEOS_PORT || 5001),
-            hostname: process.env.VIDEOS_HOST || 'http://51.136.28.220',
+            hostname: process.env.VIDEOS_HOST || 'http://localhost',
             api: process.env.USERS_API || '/api/view',
         },
         channels: {
@@ -35,7 +35,7 @@ export const config = {
                 },
             },
             port: +(process.env.CHANNELS_PORT || 5006),
-            hostname: process.env.CHANNELS_HOST || 'http://51.136.28.220',
+            hostname: process.env.CHANNELS_HOST || 'http://localhost',
             api: process.env.USERS_API || '/api/channel',
         },
     },

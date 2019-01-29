@@ -24,18 +24,15 @@ export class VideosController {
     static async getMany(req: Request, res: Response) {
         let videos = await VideosService.getMany(req.query, req.headers.authorization!);
         const channelsIds = videos.map((video: any) => video.channel);
+        const channels = await ChannelsRpc.getChannelsByIds(channelsIds).catch(e => []);
 
-        try {
-            const channels = await ChannelsRpc.getChannelsByIds(channelsIds);
-            videos = videos.map((video: any) => {
-                return {
-                    ...video,
-                    channel: channels[video.channel],
-                };
-            });
-        } finally {
-            return res.json(videos);
-        }
+        videos = videos.map((video: any) => {
+            return {
+                ...video,
+                channel: channels[video.channel] || video.channel,
+            };
+        });
+        return res.json(videos);
     }
 
     static async create(req: Request, res: Response) {

@@ -38,6 +38,11 @@ export const config = {
             hostname: process.env.CHANNELS_HOST || 'http://localhost',
             api: process.env.CHANNELS_API || '/api/channel',
         },
+        userPermissions: {
+            port: +(process.env.CHANNELS_PORT || 5006),
+            hostname: process.env.CHANNELS_HOST || 'http://localhost',
+            api: process.env.USER_PERMISSIONS_API || '/api/userPermissions',
+        },
     },
     server: {
         port: +(process.env.SERVER_PORT || 7001),

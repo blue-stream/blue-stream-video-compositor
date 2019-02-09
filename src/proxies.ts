@@ -16,6 +16,6 @@ const restream = (proxyReq: any, req: any, res: any) => {
 };
 
 const VideosProxy = proxy({ target: videosApi, onProxyReq: restream });
-const ChannelsProxy = proxy({ target: channelsApi });
+const ChannelsProxy = proxy({ target: channelsApi, onProxyReq: restream });
 
 export { VideosProxy, ChannelsProxy };

@@ -29,10 +29,6 @@ server.use((req: express.Request, res: express.Response, next: express.NextFunct
 });
 
 if (config.authentication.required) {
-    server.use((req, res, next) => {
-        req.headers.authorization = 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXJAZG8ifQ.k1sGqvw0IJ1ocB9XrF8Oviaz4D-A4E9fDkz_VmAY-LA';
-        next();
-    });
     server.use(Authenticator.initialize());
     server.use(Authenticator.middleware);
 } else {

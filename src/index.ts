@@ -7,7 +7,7 @@ import { AppRouter } from './router';
 import { AppProxyRouter } from './proxyRouter';
 import { Authenticator } from './utils/authenticator';
 import { Logger } from './utils/logger';
-import { unknownErrorHandler, errorHandler } from './utils/errors/errorHandler';
+import { unknownErrorHandler, errorHandler, userErrorHandler, serverErrorHandler } from './utils/errors/errorHandler';
 
 const server = express();
 
@@ -41,6 +41,8 @@ server.use(bodyParser.urlencoded({ extended: true }));
 server.use(AppRouter);
 server.use(AppProxyRouter);
 
+server.use(userErrorHandler);
+server.use(serverErrorHandler);
 server.use(errorHandler);
 server.use(unknownErrorHandler);
 

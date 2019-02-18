@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { ChannelPermissionsService } from './channelPermissions.service';
 import { VideosService } from '../videos/videos.service';
+import { UnPremittedUserError, VideoNotFoundError } from '../utils/errors/userErrors';
 
 enum PermissionTypes {
     Upload = 'UPLOAD',
@@ -15,12 +16,12 @@ export class ChannelPermissionsMiddleware {
             const userPermissions = await ChannelPermissionsService.getOne({ channel: req.body.channel }, req.headers.authorization!);
 
             if (!userPermissions) {
-                throw new Error('User does not have permissions to this channel');
+                throw new UnPremittedUserError('User does not have permissions to this channel');
             }
 
             if (userPermissions.permissions.indexOf(PermissionTypes.Upload) === -1 &&
                 userPermissions.permissions.indexOf(PermissionTypes.Admin) === -1) {
-                throw new Error('User does not have Upload/Admin permissions to this channel');
+                throw new UnPremittedUserError('User does not have Upload/Admin permissions to this channel');
             }
 
             next();
@@ -32,18 +33,18 @@ export class ChannelPermissionsMiddleware {
             const video = await VideosService.get(req.params.id, req.headers.authorization!);
 
             if (!video) {
-                throw new Error('Video does not exists');
+                throw new VideoNotFoundError();
             }
 
             const userPermissions = await ChannelPermissionsService.getOne({ channel: video.channel }, req.headers.authorization!);
 
             if (!userPermissions) {
-                throw new Error('User does not have permissions to this channel');
+                throw new UnPremittedUserError('User does not have permissions to this channel');
             }
 
             if (userPermissions.permissions.indexOf(PermissionTypes.Edit) === -1 &&
                 userPermissions.permissions.indexOf(PermissionTypes.Admin) === -1) {
-                throw new Error('User does not have Edit/Admin permissions to this channel');
+                throw new UnPremittedUserError('User does not have Edit/Admin permissions to this channel');
             }
 
             next();
@@ -55,18 +56,18 @@ export class ChannelPermissionsMiddleware {
             const video = await VideosService.get(req.params.id, req.headers.authorization!);
 
             if (!video) {
-                throw new Error('Video does not exists');
+                throw new VideoNotFoundError('Video does not exists');
             }
 
             const userPermissions = await ChannelPermissionsService.getOne({ channel: video.channel }, req.headers.authorization!);
 
             if (!userPermissions) {
-                throw new Error('User does not have permissions to this channel');
+                throw new UnPremittedUserError('User does not have permissions to this channel');
             }
 
             if (userPermissions.permissions.indexOf(PermissionTypes.Remove) === -1 &&
                 userPermissions.permissions.indexOf(PermissionTypes.Admin) === -1) {
-                throw new Error('User does not have Remove/Admin permissions to this channel');
+                throw new UnPremittedUserError('User does not have Remove/Admin permissions to this channel');
             }
 
             next();

@@ -2,6 +2,33 @@ import * as express from 'express';
 import { Logger } from '../logger';
 import { syslogSeverityLevels } from 'llamajs/dist';
 import { AxiosError } from 'axios';
+import { ServerError, UserError } from './applicationError';
+
+export function userErrorHandler(error: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
+    if (error instanceof UserError) {
+        res.status(error.status).send({
+            type: error.name,
+            message: error.message,
+        });
+
+        next();
+    } else {
+        next(error);
+    }
+}
+
+export function serverErrorHandler(error: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
+    if (error instanceof ServerError) {
+        res.status(error.status).send({
+            type: error.name,
+            message: error.message,
+        });
+
+        next();
+    } else {
+        next(error);
+    }
+}
 
 export function errorHandler(error: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
     if ((error as AxiosError).response) {

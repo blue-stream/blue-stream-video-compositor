@@ -3,6 +3,7 @@ import { config } from './config';
 
 const videosApi: string = `${config.endpoints.videos.hostname}:${config.endpoints.videos.port}`;
 const channelsApi: string = `${config.endpoints.channels.hostname}:${config.endpoints.channels.port}`;
+const usersApi: string = `${config.endpoints.users.hostname}:${config.endpoints.users.port}`;
 
 const restream = (proxyReq: any, req: any, res: any) => {
     if (req.body) {
@@ -17,5 +18,6 @@ const restream = (proxyReq: any, req: any, res: any) => {
 
 const VideosProxy = proxy({ target: videosApi, onProxyReq: restream });
 const ChannelsProxy = proxy({ target: channelsApi, onProxyReq: restream });
+const UsersProxy = proxy({ target: usersApi, onProxyReq: restream });
 
-export { VideosProxy, ChannelsProxy };
+export { VideosProxy, ChannelsProxy, UsersProxy };

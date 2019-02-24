@@ -23,13 +23,14 @@ export class ChannelPermissionsController {
     static async getUserPermittedChannels(req: Request, res: Response) {
         let userPermissions = await ChannelPermissionsService.getUserPermittedChannels(req.query, req.headers.authorization!);
         const channelIds = userPermissions.map((userPermission: { channel: string }) => userPermission.channel);
-        const channels = await ChannelsRpc.getChannelsByIds(channelIds).catch(e => undefined);
+        const channelsViews = await VideosRpc.getChannelsViews(channelIds);
 
         userPermissions = userPermissions.map((userPermission: any) => {
-            return {
-                ...userPermission,
-                channel: channels ? channels[userPermission.channel] : userPermission.channel,
+            userPermission.channel = {
+                ...userPermission.channel,
+                views: channelsViews ? channelsViews[userPermission.channel.id] || 0 : 0,
             };
+            return userPermission;
         });
 
         return res.json(userPermissions);

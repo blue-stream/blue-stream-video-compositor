@@ -5,8 +5,9 @@ import { ChannelPermissionsMiddleware } from '../channelPermissions/channelPermi
 
 const VideosRouter: Router = Router();
 
-VideosRouter.get('/:id', Wrapper.wrapAsync(VideosController.get));
 VideosRouter.get('/', Wrapper.wrapAsync(VideosController.getMany));
+VideosRouter.get('/search', Wrapper.wrapAsync(VideosController.getSearched));
+VideosRouter.get('/:id', Wrapper.wrapAsync(VideosController.get));
 VideosRouter.post('/', Wrapper.wrapAsync(ChannelPermissionsMiddleware.hasUploadPermission()), Wrapper.wrapAsync(VideosController.create));
 VideosRouter.put('/:id', Wrapper.wrapAsync(ChannelPermissionsMiddleware.hasEditPermission()));
 VideosRouter.delete('/:id', Wrapper.wrapAsync(ChannelPermissionsMiddleware.hasDeletePermission()));

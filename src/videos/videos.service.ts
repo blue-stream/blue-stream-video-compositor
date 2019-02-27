@@ -12,6 +12,10 @@ export class VideosService {
         return HttpClient.get(`${VideosService.api}`, query, authorizationHeader);
     }
 
+    static getSearched(query: any, authorizationHeader: string) {
+        return HttpClient.get(`${VideosService.api}/search`, query, authorizationHeader);
+    }
+
     static create(body: any, authorizationHeader: string) {
         return HttpClient.post(`${VideosService.api}`, body, authorizationHeader);
     }

@@ -39,4 +39,18 @@ export class VideosController {
         await ChannelsService.doesExist(req.body.channel, req.headers.authorization!);
         res.json(await VideosService.create(req.body, req.headers.authorization!));
     }
+
+    static async getSearched(req: Request, res: Response) {
+        let videos = await VideosService.getSearched(req.query, req.headers.authorization!);
+        const channelsIds = videos.map((video: any) => video.channel);
+        const channels = await ChannelsRpc.getChannelsByIds(channelsIds).catch(e => []);
+
+        videos = videos.map((video: any) => {
+            return {
+                ...video,
+                channel: channels[video.channel] || video.channel,
+            };
+        });
+        return res.json(videos);
+    }
 }

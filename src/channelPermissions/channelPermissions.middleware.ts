@@ -36,6 +36,10 @@ export class ChannelPermissionsMiddleware {
                 throw new VideoNotFoundError();
             }
 
+            if (video.owner === req.user.id) {
+                return next();
+            }
+
             const userPermissions = await ChannelPermissionsService.getOne({ channel: video.channel }, req.headers.authorization!);
 
             if (!userPermissions) {
@@ -47,7 +51,7 @@ export class ChannelPermissionsMiddleware {
                 throw new UnPremittedUserError('User does not have Edit/Admin permissions to this channel');
             }
 
-            next();
+            return next();
         };
     }
 

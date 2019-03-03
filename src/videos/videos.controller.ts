@@ -3,6 +3,8 @@ import { ChannelsService } from '../channels/channels.service';
 import { VideosService } from './videos.service';
 import { UsersService } from '../users/users.service';
 import { ChannelsRpc } from '../channels/channels.rpc';
+import { sign } from 'jsonwebtoken';
+import { config } from '../config';
 
 export class VideosController {
     static async get(req: Request, res: Response) {
@@ -14,10 +16,13 @@ export class VideosController {
         ]);
 
         const [owner, channel] = results;
+        const signedToken = sign({ user: req.user.id, path: video.contentPath }, config.videoSecret);
+
         res.json({
             ...video,
             channel,
             owner,
+            token: signedToken,
         });
     }
 

@@ -63,6 +63,10 @@ export class ChannelPermissionsMiddleware {
                 throw new VideoNotFoundError('Video does not exists');
             }
 
+            if (video.owner === req.user.id) {
+                return next();
+            }
+
             const userPermissions = await ChannelPermissionsService.getOne({ channel: video.channel }, req.headers.authorization!);
 
             if (!userPermissions) {

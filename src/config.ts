@@ -66,4 +66,5 @@ export const config = {
         required: process.env.AUTHENTICATION_REQUIRED || true,
         secret: process.env.SECRET_KEY || 'bLue5tream@2018',
     },
+    videoSecret: 'video@bs2019!',
 };

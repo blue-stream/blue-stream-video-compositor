@@ -42,7 +42,13 @@ export class VideosController {
 
     static async create(req: Request, res: Response) {
         await ChannelsService.doesExist(req.body.channel, req.headers.authorization!);
-        res.json(await VideosService.create(req.body, req.headers.authorization!));
+        const video = await VideosService.create(req.body, req.headers.authorization!);
+        const videoToken = sign({ user: req.user.id, video: video.id }, config.authentication.secret);
+
+        res.json({
+            ...video,
+            token: videoToken,
+        });
     }
 
     static async getSearched(req: Request, res: Response) {

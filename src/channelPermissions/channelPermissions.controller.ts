@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { ChannelPermissionsService } from './channelPermissions.service';
 import { VideosRpc } from '../videos/videos.rpc';
 import { UsersRpc } from '../users/users.rpc';
-import { ChannelsRpc } from '../channels/channels.rpc';
 
 export class ChannelPermissionsController {
     static async getChannelPermittedUsers(req: Request, res: Response) {

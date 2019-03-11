@@ -13,18 +13,18 @@ enum PermissionTypes {
 export class ChannelPermissionsMiddleware {
     static hasUploadPermission() {
         return async (req: Request, res: Response, next: NextFunction) => {
-            if (req.user.isSysAdmin) {
-                const userPermissions = await ChannelPermissionsService.getOne({ channel: req.body.channel }, req.headers.authorization!);
+            if (req.user.isSysAdmin) return next();
 
-                if (!userPermissions) throw new UnPremittedUserError('User does not have permissions to this channel');
+            const userPermissions = await ChannelPermissionsService.getOne({ channel: req.body.channel }, req.headers.authorization!);
 
-                if (userPermissions.permissions.indexOf(PermissionTypes.Upload) === -1 &&
-                    userPermissions.permissions.indexOf(PermissionTypes.Admin) === -1) {
-                    throw new UnPremittedUserError('User does not have Upload/Admin permissions to this channel');
-                }
+            if (!userPermissions) throw new UnPremittedUserError('User does not have permissions to this channel');
+
+            if (userPermissions.permissions.indexOf(PermissionTypes.Upload) === -1 &&
+                userPermissions.permissions.indexOf(PermissionTypes.Admin) === -1) {
+                throw new UnPremittedUserError('User does not have Upload/Admin permissions to this channel');
             }
 
-            next();
+            return next();
         };
     }
 

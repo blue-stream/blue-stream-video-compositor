@@ -6,6 +6,7 @@ const AppProxyRouter: Router = Router();
 
 AppProxyRouter.use(config.endpoints.videos.api, VideosProxy);
 AppProxyRouter.use(config.endpoints.views.api, VideosProxy);
+AppProxyRouter.use(config.endpoints.userClassifications.api, VideosProxy);
 AppProxyRouter.use(config.endpoints.channels.api, ChannelsProxy);
 AppProxyRouter.use(config.endpoints.userPermissions.api, ChannelsProxy);
 AppProxyRouter.use(config.endpoints.users.api, UsersProxy);

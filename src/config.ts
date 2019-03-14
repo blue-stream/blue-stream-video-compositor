@@ -27,6 +27,11 @@ export const config = {
             hostname: process.env.VIDEOS_HOST || 'http://localhost',
             api: process.env.VIEWS_API || '/api/view',
         },
+        userClassifications: {
+            port: +(process.env.VIDEOS_PORT || 5001),
+            hostname: process.env.VIDEOS_HOST || 'http://localhost',
+            api: process.env.CLASSIFICATIONS_API || '/api/classification',
+        },
         channels: {
             rpc: {
                 port: +(process.env.CHANNELS_RPC_PORT || 6006),

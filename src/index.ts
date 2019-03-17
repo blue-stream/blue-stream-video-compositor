@@ -1,12 +1,11 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import { syslogSeverityLevels } from 'llamajs';
 
 import { config } from './config';
 import { AppRouter } from './router';
 import { AppProxyRouter } from './proxyRouter';
 import { Authenticator } from './utils/authenticator';
-import { Logger } from './utils/logger';
+import { log } from './utils/logger';
 import { unknownErrorHandler, errorHandler, userErrorHandler, serverErrorHandler } from './utils/errors/errorHandler';
 
 const server = express();
@@ -46,9 +45,7 @@ server.use(serverErrorHandler);
 server.use(errorHandler);
 server.use(unknownErrorHandler);
 
-Logger.configure();
-
-Logger.log(syslogSeverityLevels.Informational, 'Video Compositor Started', `Port: ${config.server.port}`);
+log('verbose' , 'Compositor Started', `Port: ${config.server.port}`);
 console.log(`${config.server.name} running on port ${config.server.port}`);
 
 server.listen(config.server.port);

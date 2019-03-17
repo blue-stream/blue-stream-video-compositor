@@ -5,7 +5,7 @@ import { ServerError, UserError } from './applicationError';
 
 export function userErrorHandler(error: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
     if (error instanceof UserError) {
-        log('info' , 'User Error', `${error.name} was thrown with status ${error.status} and message ${error.message}`, '', req.user.id);
+        log('info' , 'User Error', `${error.name} was thrown with status ${error.status} and message ${error.message}`, '', req.user ? req.user.id : 'unknown');
         res.status(error.status).send({
             type: error.name,
             message: error.message,
@@ -19,7 +19,7 @@ export function userErrorHandler(error: Error, req: express.Request, res: expres
 
 export function serverErrorHandler(error: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
     if (error instanceof ServerError) {
-        log('warn' , 'Server Error', `${error.name} was thrown with status ${error.status} and message ${error.message}`, '', req.user.id);
+        log('warn' , 'Server Error', `${error.name} was thrown with status ${error.status} and message ${error.message}`, '', req.user ? req.user.id : 'unknown');
         res.status(error.status).send({
             type: error.name,
             message: error.message,
@@ -34,7 +34,7 @@ export function serverErrorHandler(error: Error, req: express.Request, res: expr
 export function errorHandler(error: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
     if ((error as AxiosError).response) {
         const axiosError = error as AxiosError;
-        log('warn' , 'AxiosError', `${error.name} was thrown with status ${axiosError.response!.status} and message ${axiosError.response!.statusText}`, '', req.user.id);
+        log('warn' , 'AxiosError', `${error.name} was thrown with status ${axiosError.response!.status} and message ${axiosError.response!.statusText}`, '', req.user ? req.user.id : 'unknown');
 
         res.status(axiosError.response!.status).send();
     } else {
@@ -43,7 +43,7 @@ export function errorHandler(error: Error, req: express.Request, res: express.Re
 }
 
 export function unknownErrorHandler(error: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
-    log('error' , 'Unknown Error', `${error.name} was thrown with status 500 and message ${error.message}`, '', req.user.id);
+    log('error' , 'Unknown Error', `${error.name} was thrown with status 500 and message ${error.message}`, '', req.user ? req.user.id : 'unknown');
 
     res.status(500).send({
         type: error.name,

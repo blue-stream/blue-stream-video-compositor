@@ -8,7 +8,7 @@ export class ChannelsController {
         let channels = await ChannelsService.getMany(req.query, req.headers.authorization!);
         const channelIds = channels.map((channel: { id: string }) => channel.id);
         const views = await VideosRpc.getChannelsViews(channelIds).catch((error) => {
-            log('warn' , 'Videos RPC request failed - getChannelsViews', error.message, '', req.user ? req.user.id : 'unknown', [error]);
+            log('warn' , 'Videos RPC request failed - getChannelsViews', error.message, '', req.user ? req.user.id : 'unknown', { error });
             return undefined;
         });
 

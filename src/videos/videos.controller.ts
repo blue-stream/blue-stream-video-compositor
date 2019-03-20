@@ -13,11 +13,11 @@ export class VideosController {
 
         const results = await Promise.all([
             UsersService.get(video.owner, req.headers.authorization!).catch((error) => {
-                log('warn' , 'Users Service request failed - get', error.message, '', req.user ? req.user.id : 'unknown', [error]);
+                log('warn' , 'Users Service request failed - get', error.message, '', req.user ? req.user.id : 'unknown', { error });
                 return video.owner;
             }),
             ChannelsService.get(video.channel, req.headers.authorization!).catch((error) => {
-                log('warn' , 'Channels Service request failed - get', error.message, '', req.user ? req.user.id : 'unknown', [error]);
+                log('warn' , 'Channels Service request failed - get', error.message, '', req.user ? req.user.id : 'unknown', { error });
                 return video.channel;
             }),
         ]);
@@ -37,7 +37,7 @@ export class VideosController {
         let videos = await VideosService.getMany(req.query, req.headers.authorization!);
         const channelsIds = videos.map((video: any) => video.channel);
         const channels = await ChannelsRpc.getChannelsByIds(channelsIds).catch((error) => {
-            log('warn' , 'Channels Rpc request failed - getChannelsByIds', error.message, '', req.user ? req.user.id : 'unknown', [error]);
+            log('warn' , 'Channels Rpc request failed - getChannelsByIds', error.message, '', req.user ? req.user.id : 'unknown', { error });
             return [];
         });
 
@@ -65,7 +65,7 @@ export class VideosController {
         let videos = await VideosService.getSearched(req.query, req.headers.authorization!);
         const channelsIds = videos.map((video: any) => video.channel);
         const channels = await ChannelsRpc.getChannelsByIds(channelsIds).catch((error) => {
-            log('warn' , 'Channels Rpc request failed - getChannelsByIds', error.message, '', req.user ? req.user.id : 'unknown', [error]);
+            log('warn' , 'Channels Rpc request failed - getChannelsByIds', error.message, '', req.user ? req.user.id : 'unknown', { error });
             return [];
         });
 

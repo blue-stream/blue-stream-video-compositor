@@ -9,7 +9,7 @@ export class ChannelPermissionsController {
         let userPermissions = await ChannelPermissionsService.getChannelPermittedUsers(req.params.channelId, req.query, req.headers.authorization!);
         const userIds = userPermissions.map((userPermission: { user: string }) => userPermission.user);
         const users = await UsersRpc.getUsersByIds(userIds).catch((error) => {
-            log('warn' , 'Users RPC request failed - getUsersByIds', error.message, '', req.user ? req.user.id : 'unknown', [error]);
+            log('warn' , 'Users RPC request failed - getUsersByIds', error.message, '', req.user ? req.user.id : 'unknown', { error });
             return undefined;
         });
 

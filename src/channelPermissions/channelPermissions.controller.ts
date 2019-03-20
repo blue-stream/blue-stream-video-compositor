@@ -2,12 +2,16 @@ import { Request, Response } from 'express';
 import { ChannelPermissionsService } from './channelPermissions.service';
 import { VideosRpc } from '../videos/videos.rpc';
 import { UsersRpc } from '../users/users.rpc';
+import { log } from '../utils/logger';
 
 export class ChannelPermissionsController {
     static async getChannelPermittedUsers(req: Request, res: Response) {
         let userPermissions = await ChannelPermissionsService.getChannelPermittedUsers(req.params.channelId, req.query, req.headers.authorization!);
         const userIds = userPermissions.map((userPermission: { user: string }) => userPermission.user);
-        const users = await UsersRpc.getUsersByIds(userIds).catch(e => undefined);
+        const users = await UsersRpc.getUsersByIds(userIds).catch((error) => {
+            log('warn' , 'Users RPC request failed - getUsersByIds', error.message, '', req.user ? req.user.id : 'unknown', [error]);
+            return undefined;
+        });
 
         userPermissions = userPermissions.map((userPermission: any) => {
             return {

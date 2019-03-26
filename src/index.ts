@@ -1,7 +1,17 @@
+import { config } from './config';
+const apm = require('elastic-apm-node');
+
+if (config.apm.isActive) {
+    apm.start({
+        serviceName: config.server.name,
+        serverUrl: config.apm.server,
+        captureBody: 'all',
+    });
+}
+
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 
-import { config } from './config';
 import { AppRouter } from './router';
 import { AppProxyRouter } from './proxyRouter';
 import { Authenticator } from './utils/authenticator';

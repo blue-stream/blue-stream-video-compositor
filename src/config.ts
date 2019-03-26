@@ -52,7 +52,7 @@ export const config = {
     server: {
         port: +(process.env.SERVER_PORT || 7001),
         hostname: process.env.SERVER_HOST || 'http://localhost',
-        name: process.env.SERVER_NAME || 'Video Compositor',
+        name: process.env.SERVER_NAME || 'blue-stream-video-compositor',
     },
     logger: {
         elasticsearch: process.env.LOGGER_ELASTICSEARCH && {
@@ -65,6 +65,10 @@ export const config = {
     authentication: {
         required: process.env.AUTHENTICATION_REQUIRED || true,
         secret: process.env.SECRET_KEY || 'bLue5tream@2018',
+    },
+    apm: {
+        server: process.env.APM_SERVER || 'http://apm:8200',
+        isActive: process.env.APM_ACTIVE || true,
     },
     videoSecret: 'video@bs2019!',
 };

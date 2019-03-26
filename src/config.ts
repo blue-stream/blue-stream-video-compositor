@@ -30,7 +30,7 @@ export const config = {
         userClassifications: {
             port: +(process.env.VIDEOS_PORT || 5001),
             hostname: process.env.VIDEOS_HOST || 'http://localhost',
-            api: process.env.CLASSIFICATIONS_API || '/api/classification',
+            api: process.env.CLASSIFICATIONS_PROXY_API || '/api/classification',
         },
         channels: {
             rpc: {

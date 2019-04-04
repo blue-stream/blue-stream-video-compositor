@@ -23,6 +23,24 @@ export class ChannelPermissionsController {
         return res.json(userPermissions);
     }
 
+    static async getChannelAdmins(req: Request, res: Response) {
+        let admins = await ChannelPermissionsService.getChannelAdmins(req.params.channelId, req.query, req.headers.authorization!);
+        const userIds = admins.map((admin: { user: string }) => admin.user);
+        const users = await UsersRpc.getUsersByIds(userIds).catch((error) => {
+            log('warn' , 'Users RPC request failed - getUsersByIds', error.message, '', req.user ? req.user.id : 'unknown', { error });
+            return undefined;
+        });
+
+        admins = admins.map((admin: any) => {
+            return {
+                ...admin,
+                user: users ? users[admin.user] : admin.user,
+            };
+        });
+
+        return res.json(admins);
+    }
+
     static async getUserPermittedChannels(req: Request, res: Response) {
         let userPermissions = await ChannelPermissionsService.getUserPermittedChannels(req.query, req.headers.authorization!);
         const channelIds = userPermissions.map((userPermission: { channel: { id: string } }) => userPermission.channel.id);

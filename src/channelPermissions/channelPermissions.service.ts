@@ -12,6 +12,10 @@ export class ChannelPermissionsService {
         return HttpClient.get(`${ChannelPermissionsService.api}/${channelId}/users`, query, authorizationHeader);
     }
 
+    static getChannelAdmins(channelId: string, query: any, authorizationHeader: string) {
+        return HttpClient.get(`${ChannelPermissionsService.api}/${channelId}/admins`, query, authorizationHeader);
+    }
+
     static getUserPermittedChannels(query: any, authorizationHeader: string) {
         return HttpClient.get(`${ChannelPermissionsService.api}/channels`, query, authorizationHeader);
     }

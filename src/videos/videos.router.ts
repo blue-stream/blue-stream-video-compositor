@@ -8,6 +8,7 @@ const VideosRouter: Router = Router();
 
 VideosRouter.get('/', Wrapper.wrapAsync(VideosController.getMany));
 VideosRouter.get('/amount', VideosProxy);
+VideosRouter.get('/tags', VideosProxy);
 VideosRouter.get('/search', Wrapper.wrapAsync(VideosController.getSearched));
 VideosRouter.get('/:id', Wrapper.wrapAsync(VideosController.get));
 VideosRouter.post('/', Wrapper.wrapAsync(ChannelPermissionsMiddleware.hasUploadPermission()), Wrapper.wrapAsync(VideosController.create));

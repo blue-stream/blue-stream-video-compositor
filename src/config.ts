@@ -58,6 +58,7 @@ export const config = {
         elasticsearch: process.env.LOGGER_ELASTICSEARCH && {
             hosts: process.env.LOGGER_ELASTICSEARCH.split(','),
         },
+        indexPrefix: process.env.LOGGER_ELASTICSEARCH_PREFIX || 'blue-stream-logs',
     },
     cors: {
         allowedOrigins: process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : ['http://localhost'],

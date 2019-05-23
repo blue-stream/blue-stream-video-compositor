@@ -13,13 +13,14 @@ enum PermissionTypes {
 export class ChannelPermissionsMiddleware {
     static hasReuploadPermission() {
         return async (req: Request, res: Response, next: NextFunction) => {
+            const video = await VideosService.get(req.params.id, req.headers.authorization!);
+
+            if (!video) throw new VideoNotFoundError();
             if (req.user.isSysAdmin) return next();
 
-            const userPermissions = await ChannelPermissionsService.getOne({ channel: req.body.channel }, req.headers.authorization!);
+            const userPermissions = await ChannelPermissionsService.getOne({ channel: video.channel }, req.headers.authorization!);
 
             if (!userPermissions) throw new UnPremittedUserError('User does not have permissions to this channel');
-
-            const video = await VideosService.get(req.params.id, req.headers.authorization!);
 
             if (userPermissions.permissions.indexOf(PermissionTypes.Admin) === -1 &&
                 (!req.user || req.user.id !== video.owner)) {

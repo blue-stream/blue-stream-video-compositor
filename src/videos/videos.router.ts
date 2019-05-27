@@ -12,6 +12,7 @@ VideosRouter.get('/tags', VideosProxy);
 VideosRouter.get('/search', Wrapper.wrapAsync(VideosController.getSearched));
 VideosRouter.get('/:id', Wrapper.wrapAsync(VideosController.get));
 VideosRouter.post('/', Wrapper.wrapAsync(ChannelPermissionsMiddleware.hasUploadPermission()), Wrapper.wrapAsync(VideosController.create));
+VideosRouter.put('/reupload/:id', Wrapper.wrapAsync(ChannelPermissionsMiddleware.hasReuploadPermission()), Wrapper.wrapAsync(VideosController.reuploadVideo))
 VideosRouter.put('/:id', Wrapper.wrapAsync(ChannelPermissionsMiddleware.hasEditPermission()));
 VideosRouter.delete('/:id', Wrapper.wrapAsync(ChannelPermissionsMiddleware.hasDeletePermission()));
 

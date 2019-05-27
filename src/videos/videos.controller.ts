@@ -61,6 +61,14 @@ export class VideosController {
         });
     }
 
+    static async reuploadVideo(req: Request, res: Response) {
+        const videoToken = sign({ user: req.user.id, video: req.params.id }, config.authentication.secret);
+
+        res.json({
+            token: videoToken,
+        });
+    }
+
     static async getSearched(req: Request, res: Response) {
         let videos = await VideosService.getSearched(req.query, req.headers.authorization!);
         const channelsIds = videos.map((video: any) => video.channel);
